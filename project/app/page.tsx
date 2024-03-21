@@ -4,11 +4,11 @@ import InfoBoxes from "@/components/InfoBoxes";
 
 export default async function HomePage() {
 
-  return (
-    <div>
-      <Hero />
-      <InfoBoxes />
-      <HomeProperties />
-    </div>
-  );
+	return (
+		<div>
+			<Hero />
+			<InfoBoxes />
+			<HomeProperties />
+		</div>
+	);
 }

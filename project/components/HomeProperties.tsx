@@ -1,22 +1,8 @@
 import React from 'react'
-// import properties from '@/utils/mocks/properties.json'
 import PropertyType from '@/utils/types/PropertyType'
 import PropertyCard from './PropertyCard'
 import Link from 'next/link'
-
-async function fetchProperties() {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`)
-  
-      if (!res.ok)
-        throw new Error('Failed to fetch data')
-  
-      return await res.json()
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
+import { fetchProperties } from '@/utils/services/requests'
 
 const HomeProperties = async () => {
     const properties = await fetchProperties()
