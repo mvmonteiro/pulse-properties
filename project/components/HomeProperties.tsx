@@ -1,9 +1,26 @@
 import React from 'react'
-import properties from '@/utils/mocks/properties.json'
+// import properties from '@/utils/mocks/properties.json'
+import PropertyType from '@/utils/types/PropertyType'
 import PropertyCard from './PropertyCard'
 import Link from 'next/link'
 
-const HomeProperties = () => {
+async function fetchProperties() {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties`)
+  
+      if (!res.ok)
+        throw new Error('Failed to fetch data')
+  
+      return await res.json()
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
+const HomeProperties = async () => {
+    const properties = await fetchProperties()
+
     const recentProperties = properties
         .sort(() => Math.random() - Math.random())
         .slice(0, 3)
@@ -20,7 +37,7 @@ const HomeProperties = () => {
                             <p>No properties found</p>
                         )
                             :
-                            recentProperties.map((property) => (
+                            recentProperties.map((property: PropertyType) => (
                                 <div key={property.name}>
                                     <PropertyCard property={property} />
                                 </div>
