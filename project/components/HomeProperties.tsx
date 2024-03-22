@@ -1,9 +1,12 @@
 import React from 'react'
-import properties from '@/utils/mocks/properties.json'
+import PropertyType from '@/utils/types/PropertyType'
 import PropertyCard from './PropertyCard'
 import Link from 'next/link'
+import { fetchProperties } from '@/utils/services/requests'
 
-const HomeProperties = () => {
+const HomeProperties = async () => {
+    const properties = await fetchProperties()
+
     const recentProperties = properties
         .sort(() => Math.random() - Math.random())
         .slice(0, 3)
@@ -20,7 +23,7 @@ const HomeProperties = () => {
                             <p>No properties found</p>
                         )
                             :
-                            recentProperties.map((property) => (
+                            recentProperties.map((property: PropertyType) => (
                                 <div key={property.name}>
                                     <PropertyCard property={property} />
                                 </div>
