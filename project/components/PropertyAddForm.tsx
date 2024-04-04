@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useEffect, useState } from 'react'
 
 interface FieldState {
     type: string
@@ -25,7 +25,8 @@ interface FieldState {
         email: string
         phone: string
     }
-    images: string[]
+    images: File[]
+    [key: string]: any
 }
 
 const PropertyAddForm = () => {
@@ -61,14 +62,76 @@ const PropertyAddForm = () => {
         setMounted(true)
     }, [])
 
-    const handleChange = () => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+
+        // checking the nested variables trying to find the '.'
+        if (name.includes('.')) {
+            const [outerKey, innerKey] = name.split('.')
+
+            setFields((prevFields) => ({
+                ...prevFields,
+                [outerKey]: {
+                    ...(prevFields[outerKey] as Record<string, string>),
+                    [innerKey]: value
+                }
+            }))
+        }
+        else {
+            // not nested
+            setFields((prevFields) => ({
+                ...prevFields,
+                [name]: value
+            }))
+        }
+    }
+
+    const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.target
+
+        // clone the current array
+        const updatedAmenites = [...fields.amenities]
+
+        if (checked) {
+            // add value to array
+            updatedAmenites.push(value)
+        }
+        else {
+            // remove value from array
+            const index = updatedAmenites.indexOf(value)
+
+            // in case the index is different, there is a value
+            if (index !== -1) {
+                updatedAmenites.splice(index, 1)
+            }
+        }
+
+        // update state with updated array
+        setFields((prevFields) => ({
+            ...prevFields,
+            amenities: updatedAmenites
+        }))
 
     }
-    const handleAmenitiesChange = () => {
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { files } = e.target
 
-    }
-    const handleImageChange = () => {
+        // clone images array
+        const updatedImages = [...fields.images]
 
+        // add new files to the array
+        if (files) {
+            const filesArray = Array.from(files as FileList); // Convertendo FileList para um array de File
+            for (const file of filesArray) {
+                updatedImages.push(file); // Adicionando o arquivo ao estado 'updatedImages'
+            }
+
+            // update state with array of images
+            setFields((prevFields) => ({
+                ...prevFields,
+                images: updatedImages
+            }))
+        }
     }
 
     return mounted &&
@@ -104,8 +167,8 @@ const PropertyAddForm = () => {
                 >Listing Name</label>
                 <input
                     type="text"
-                    id="name"
-                    name="name"
+                    id="type"
+                    name="type"
                     className="border rounded w-full py-2 px-3 mb-2"
                     placeholder="eg. Beautiful Apartment In Miami"
                     required
