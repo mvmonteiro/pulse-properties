@@ -1,6 +1,7 @@
 'use client'
 import PropertyDetails from '@/components/PropertyDetails'
 import PropertyHeaderImage from '@/components/PropertyHeaderImage'
+import PropertyImages from '@/components/PropertyImages'
 import Spinner from '@/components/Spinner'
 import { fetchProperty } from '@/utils/services/requests'
 import Property from '@/utils/types/PropertyType'
@@ -156,6 +157,7 @@ function PropertyPage() {
 							</div>
 						</div>
 					</section>
+					<PropertyImages images={property.images} />
 				</>
 			)}
 
