@@ -90,8 +90,6 @@ export const POST = async (request) => {
             propertyData.images = uploadImages
         }
 
-        console.log(propertyData)
-
         const newProperty = new Property(propertyData)  // constructor of a model property using the object that we have
         await newProperty.save()                        // save in db
 
