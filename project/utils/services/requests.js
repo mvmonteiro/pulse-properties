@@ -8,7 +8,11 @@ async function fetchProperties() {
             return []
         }
 
-        const res = await fetch(`${apiDomain}/properties`)
+        const res = await fetch(`${apiDomain}/properties`, {
+            headers: {
+                'Cache-Control': 'no-cache',
+            }
+        })
 
         if (!res.ok)
             throw new Error('Failed to fetch data')
