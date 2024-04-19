@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, ChangeEventHandler, DetailedHTMLProps, InputHTMLAttributes, useEffect, useState } from 'react'
+import React, { ChangeEvent, ChangeEventHandler, DetailedHTMLProps, FormEvent, InputHTMLAttributes, useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { fetchProperty } from '@/utils/services/requests'
@@ -147,11 +147,11 @@ const PropertyEditForm = () => {
 
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         try {
-            const formData = new FormData(e.target)
+            const formData = new FormData(e.target as HTMLFormElement)
 
             const res = await fetch(`/api/properties/${id}`, {
                 method: 'PUT',
