@@ -1,6 +1,6 @@
 import React from 'react'
 import PropertyType from '@/utils/types/PropertyType'
-import { FaBed, FaBath, FaRulerCombined, FaTimes, FaCheck, FaMapMarker, FaMarker } from 'react-icons/fa'
+import { FaBed, FaBath, FaRulerCombined, FaTimes, FaCheck, FaMapMarker } from 'react-icons/fa'
 
 const PropertyDetails = ({ property }: { property: PropertyType }) => {
     return (
