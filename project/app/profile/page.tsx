@@ -7,10 +7,11 @@ import { useSession } from 'next-auth/react'
 import profileDefault from '@/assets/images/profile.png'
 import Spinner from '@/components/Spinner'
 import PropertyType from '@/utils/types/PropertyType'
+import { toast } from 'react-toastify'
 
 interface UserSession {
   data: any
-  status: "authenticated" | "loading" | "unauthenticated";
+  status: "authenticated" | "loading" | "unauthenticated"
 }
 
 const Profile = () => {
@@ -37,15 +38,15 @@ const Profile = () => {
 
         setProperties(updateProperties)
         
-        alert('Property Deleted')
+        toast.success('Property Deleted')
       }
       else {
-        alert('Failed to delete property')
+        toast.error('Failed to delete property')
       }
     }
     catch(err) {
       console.log(err)
-      alert('Failed to delete property')
+      toast.error('Failed to delete property')
     }
   }
 
