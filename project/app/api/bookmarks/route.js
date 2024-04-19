@@ -5,7 +5,7 @@ import { getSessionUser } from '@/utils/session/getSessionUser'
 
 export const dynamic = 'force-dynamic'
 
-// POST - /api/bookmarks - send an property to bookmarks array
+// POST - /api/bookmarks - send an property to bookmarks array or removing it if its already there
 export const POST = async (request) => {
     try {
         await connectDB()
@@ -14,8 +14,7 @@ export const POST = async (request) => {
 
         const sessionUser = await getSessionUser()
 
-        // if (!sessionUser || !sessionUser.userId) {
-        if (!session || !session.userId) {
+        if (!sessionUser || !sessionUser.userId) {
             return new Response('User ID is required', { status: 401 })
         }
 
