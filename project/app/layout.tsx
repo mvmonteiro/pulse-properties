@@ -1,7 +1,10 @@
 import '@/assets/styles/global.css'
-import AuthProvider from '@/components/AuthProvider';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import AuthProvider from '@/components/AuthProvider'
+import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
+
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css' 
 
 export const metadata = {
   title: 'PropertyPulse | Find The Perfect Rental',
@@ -12,7 +15,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <AuthProvider>
@@ -21,8 +24,9 @@ export default function RootLayout({
           <Navbar />
           <main >{children}</main>
           <Footer />
+          <ToastContainer />
         </body>
       </html>
     </AuthProvider>
-  );
+  )
 }
