@@ -5,7 +5,35 @@ import { getSessionUser } from '@/utils/session/getSessionUser'
 
 export const dynamic = 'force-dynamic'
 
-// POST - /api/bookmarks - send an property to bookmarks array
+// GET- /api/bookmarks
+export const GET = async () => {
+    try {
+        connectDB()
+
+        const sessionUser = await getSessionUser()
+
+        if (!sessionUser || !sessionUser.userId) {
+            return new Response('User ID is required', { status: 401 })
+        }
+
+        const { userId } = sessionUser
+
+        // find user in database
+        const user = await User.findOne({ _id: userId })
+
+        // get users bookmarks
+        const bookmarks = await Property.find({ _id: { $in: user.bookmarks } })
+
+        return new Response(JSON.stringify(bookmarks), { status: 200 })
+
+    } catch (error) {
+        console.log(error)
+        return new Response('Something went wrong', { status: 500 })
+    }
+}
+
+
+// POST - /api/bookmarks - send an property to bookmarks array or removing it if its already there
 export const POST = async (request) => {
     try {
         await connectDB()
@@ -14,8 +42,7 @@ export const POST = async (request) => {
 
         const sessionUser = await getSessionUser()
 
-        // if (!sessionUser || !sessionUser.userId) {
-        if (!session || !session.userId) {
+        if (!sessionUser || !sessionUser.userId) {
             return new Response('User ID is required', { status: 401 })
         }
 
