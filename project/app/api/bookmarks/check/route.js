@@ -4,7 +4,7 @@ import { getSessionUser } from '@/utils/session/getSessionUser'
 
 export const dynamic = 'force-dynamic'
 
-// POST - /api/bookmarks - send an property to bookmarks array or removing it if its already there
+// POST - /api/bookmarks/check - 
 export const POST = async (request) => {
     try {
         await connectDB()
@@ -25,24 +25,7 @@ export const POST = async (request) => {
         // check if property is bookmarked
         let isBookmarked = user.bookmarks.includes(propertyId)
 
-        let message
-
-        if (isBookmarked) {
-            // if already bookmarked, remove it
-            user.bookmarks.pull(propertyId)
-            message = 'Bookmark removed successfully'
-            isBookmarked = false
-        }
-        else {
-            // if not bookmarked, add it
-            user.bookmarks.push(propertyId)
-            message = 'Bookmark added successfully'
-            isBookmarked = true
-        }
-
-        await user.save()
-
-        return new Response(JSON.stringify({ message, isBookmarked }), { status: 200 })
+        return new Response(JSON.stringify({ isBookmarked }), { status: 200 })
 
     } catch (error) {
         console.log(error)
